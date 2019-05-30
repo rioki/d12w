@@ -49,7 +49,7 @@
  * 
  * @param COND the confition to check
  */
-#define D12W_ASSERT(COND) if ((COND) == false) { ::d12w::util::HandleAssert(__FUNCTION__, #COND); }
+#define D12W_ASSERT(COND) if (static_cast<bool>(COND) == false) { ::d12w::util::HandleAssert(__FUNCTION__, #COND); }
 
 /*!
  * Check if a HRESULT is a success state.

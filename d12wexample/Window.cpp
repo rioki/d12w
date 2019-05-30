@@ -101,17 +101,17 @@ namespace d12w::example
         }
     }
 
-    void Window::show(int cmd)
+    void Window::Show(int cmd)
     {
         ShowWindow(hWnd, cmd);
     }
 
-    void Window::close()
+    void Window::Close()
     {
         DestroyWindow(hWnd);
     }
 
-    void Window::run()
+    void Window::Run()
     {
         auto msg = MSG{0};
 

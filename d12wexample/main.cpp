@@ -19,10 +19,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _D12W_H_
-#define _D12W_H_
+#include <Windows.h>
 
-#include "Debug.h"
-#include "Device.h"
+#include <d12w/d12w.h>
 
-#endif
+#include "Window.h"
+
+int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
+{
+    try
+    {
+        // Enable the DirectX debug layer in debug builds. 
+        // This needs to be done befor any calls to DirectX.
+        #ifndef NDEBUG
+        auto debug = d12w::d3d::Debug{};
+        debug.EnableDebugLayer();
+        #endif
+
+        auto window = d12w::example::Window{800, 600, "D12W Example"};
+        window.Show(nCmdShow);
+        window.Run();
+        return 0;
+    }
+    catch (std::exception& ex)
+    {
+        MessageBoxA(NULL, ex.what(), "Exception", MB_OK | MB_ICONERROR);
+        return -1;
+    }
+    catch (...)
+    {
+        MessageBoxA(NULL, "Unknown exception.", "Exception", MB_OK | MB_ICONERROR);
+        return -1;
+    }
+}

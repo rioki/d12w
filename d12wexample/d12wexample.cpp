@@ -22,13 +22,13 @@
 #include <Windows.h>
 #include "Window.h"
 
-int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
+int wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
     try
     {
         auto window = d12w::example::Window{800, 600, "D12W Example"};
-        window.show(nCmdShow);
-        window.run();
+        window.Show(nCmdShow);
+        window.Run();
         return 0;
     }
     catch (std::exception& ex)
