@@ -19,7 +19,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "dbg.h"
+#include "util.h"
 
 #include <windows.h>
 #include <stdio.h>
@@ -27,12 +27,11 @@
 #include <dbghelp.h>
 #include <array>
 
-#ifndef NDEBUG
-
 #pragma comment(lib, "dbghelp.lib")
 
-namespace d12w::dbg
+namespace d12w::util
 {
+#ifndef NDEBUG
     std::string basename(const std::string& file)
     {
         size_t i = file.find_last_of("\\/");
@@ -46,7 +45,7 @@ namespace d12w::dbg
         }
     }
 
-    std::vector<StackFrame> stack_trace()
+    std::vector<StackFrame> StackTrace()
     {
         #if _WIN64
         DWORD machine = IMAGE_FILE_MACHINE_AMD64;
@@ -63,7 +62,7 @@ namespace d12w::dbg
 
         SymSetOptions(SYMOPT_LOAD_LINES);
         
-        CONTEXT    context = {};
+        CONTEXT context = {};
         context.ContextFlags = CONTEXT_FULL;
         RtlCaptureContext(&context);
 
@@ -126,7 +125,6 @@ namespace d12w::dbg
             }
             else
             {
-                DWORD error = GetLastError();
                 f.name = "Unknown Function";
             }
             
@@ -141,7 +139,6 @@ namespace d12w::dbg
             }
             else
             {
-                DWORD error = GetLastError();
                 f.line = 0;
             } 
 
@@ -157,12 +154,69 @@ namespace d12w::dbg
         return frames;
     }
     
-    void handle_assert(const std::string_view func, const std::string_view cond)
+    void HandleAssert(const std::string_view func, const std::string_view cond)
     {
         std::stringstream buff;
-        buff << func << ": Assertion '" << cond << "' failed! \n";
-        handle_throw<std::logic_error>(func, buff.str());
+        buff << "Assertion '" << cond << "' failed! \n";
+        ThrowWithCallstack<std::logic_error>(func, buff.str());
+    }
+
+    void HandleHrFailed(const std::string_view func, HRESULT hr)
+    {
+        ThrowWithCallstack<std::logic_error>(func, GetErrorMessage(hr));
+    }
+#endif
+
+    std::string GetErrorMessage(int32_t errorid)
+    {
+        auto buffer = std::array<char, 1024>{};
+        auto landId = MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT);
+        auto flags = FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
+        auto stringSize = FormatMessageA(flags, NULL, errorid, landId, buffer.data(), static_cast<DWORD>(buffer.size()), NULL);
+        return std::string(buffer.data(), stringSize);
+    }
+    
+    std::string GetLastError()
+    {
+        auto error = ::GetLastError();
+        return GetErrorMessage(error);
+    }
+
+    std::wstring widen(const std::string_view value)
+    {
+        if (value.empty())
+        {
+            return std::wstring();
+        }
+        
+        std::vector<wchar_t> buff(value.size() + 126);
+        int r = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value.data(), static_cast<int>(value.size()), buff.data(), static_cast<int>(buff.size()));
+        if (r == 0)
+        {
+            D12W_THROW(std::logic_error, GetLastError());;       
+        }
+        else
+        {
+            return std::wstring(buff.data());
+        }    
+    }
+
+    std::string narrow(const std::wstring_view value)
+    {
+        if (value.empty())
+        {
+            return std::string();
+        }
+        
+        std::vector<char> buff(value.size() * 2);
+        int r = WideCharToMultiByte(CP_UTF8, 0, value.data(), static_cast<int>(value.size()), buff.data(), static_cast<int>(buff.size()), NULL, NULL);
+        if (r == 0)
+        {
+            D12W_THROW(std::logic_error, GetLastError());;        
+        }
+        else
+        {
+            return std::string(buff.data());
+        }
     }
 }
-
-#endif

@@ -19,23 +19,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Debug.h"
+#ifndef _D12W_EXAMPLE_WINDOW_H_
+#define _D12W_EXAMPLE_WINDOW_H_
 
-#include <d3d12.h>
+#include <string_view>
+#include <windows.h>
 
-#include "ComPtr.h"
-
-#pragma comment(lib, "D3D12.lib")
-
-namespace d12w::d3d
+namespace d12w::example
 {
-    Debug::Debug() {}
-
-    void Debug::EnableDebugLayer()
+    class Window
     {
-        auto debugInterface = ComPtr<ID3D12Debug>{};
-        auto hr = D3D12GetDebugInterface(debugInterface.UUID(), debugInterface);
-        D12W_CHECK_SUCCESS(hr);
-        debugInterface->EnableDebugLayer();
-    }
+    public:
+        Window(int width, int height, const std::string_view caption);
+
+        void show(int cmd = SW_SHOW);
+
+        void close();
+
+        void run();
+
+    private:
+        HWND hWnd = nullptr;
+    };
 }
+
+#endif

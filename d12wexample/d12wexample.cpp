@@ -19,23 +19,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Debug.h"
+#include <Windows.h>
+#include "Window.h"
 
-#include <d3d12.h>
-
-#include "ComPtr.h"
-
-#pragma comment(lib, "D3D12.lib")
-
-namespace d12w::d3d
+int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
-    Debug::Debug() {}
-
-    void Debug::EnableDebugLayer()
+    try
     {
-        auto debugInterface = ComPtr<ID3D12Debug>{};
-        auto hr = D3D12GetDebugInterface(debugInterface.UUID(), debugInterface);
-        D12W_CHECK_SUCCESS(hr);
-        debugInterface->EnableDebugLayer();
+        auto window = d12w::example::Window{800, 600, "D12W Example"};
+        window.show(nCmdShow);
+        window.run();
+        return 0;
+    }
+    catch (std::exception& ex)
+    {
+        MessageBoxA(NULL, ex.what(), "Exception", MB_OK | MB_ICONERROR);
+        return -1;
+    }
+    catch (...)
+    {
+        MessageBoxA(NULL, "Unknown exception.", "Exception", MB_OK | MB_ICONERROR);
+        return -1;
     }
 }
