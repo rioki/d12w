@@ -22,6 +22,8 @@
 #ifndef _D12W_H_
 #define _D12W_H_
 
+#include "dxgi/dxgi.h"
+
 #include "Debug.h"
 #include "Device.h"
 

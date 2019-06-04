@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\dxgi">
+      <UniqueIdentifier>{ecff5cea-bc8f-4bad-9041-d857870ecb46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\dxgi">
+      <UniqueIdentifier>{bc8af3b8-35c6-4d39-ae63-0b02c7d6ccd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d12w.h">
@@ -33,6 +39,15 @@
     <ClInclude Include="util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dxgi\Factory.h">
+      <Filter>Header Files\dxgi</Filter>
+    </ClInclude>
+    <ClInclude Include="dxgi\Adapter.h">
+      <Filter>Header Files\dxgi</Filter>
+    </ClInclude>
+    <ClInclude Include="dxgi\dxgi.h">
+      <Filter>Header Files\dxgi</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Debug.cpp">
@@ -43,6 +58,12 @@
     </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dxgi\Factory.cpp">
+      <Filter>Source Files\dxgi</Filter>
+    </ClCompile>
+    <ClCompile Include="dxgi\Adapter.cpp">
+      <Filter>Source Files\dxgi</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

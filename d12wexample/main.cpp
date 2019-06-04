@@ -25,6 +25,35 @@
 
 #include "Window.h"
 
+bool useWrap = false;
+
+auto GetAdapter(bool useWarp)
+{
+    auto dxgiFactory = d12w::dxgi::Factory{};
+    if (useWarp)
+    {
+        return dxgiFactory.EnumWarpAdapter();
+    }
+    else
+    {
+        auto maxMem = 0u;
+        auto bestAdapter = 0;
+        auto adapters = dxgiFactory.EnumAdapters1();
+        for (auto i = 0u; i < adapters.size(); i++)
+        {
+            auto desc = adapters[i]->GetDesc1();
+            if (desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE == 0 && 
+                maxMem < desc.DedicatedVideoMemory /*&&
+                d3d::Device::TryCreate(adapters[i])*/)
+            {
+                bestAdapter = i;
+                maxMem = desc.DedicatedVideoMemory;
+            }
+        }
+        return adapters[bestAdapter];
+    }
+}
+
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
     try
@@ -37,6 +66,11 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
         #endif
 
         auto window = d12w::example::Window{800, 600, "D12W Example"};
+
+        auto adapter = GetAdapter(useWrap);
+        
+        
+
         window.Show(nCmdShow);
         window.Run();
         return 0;

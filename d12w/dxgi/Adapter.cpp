@@ -19,44 +19,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Debug.h"
+#include "Adapter.h"
 
-#include "util.h"
-
-#pragma comment(lib, "D3D12.lib")
-
-namespace d12w::d3d
+namespace d12w::dxgi
 {
-    Debug::Debug() 
+    Adapter::~Adapter() = default;
+
+    DXGI_ADAPTER_DESC Adapter::GetDesc()
     {
-        auto hr = D3D12GetDebugInterface(debug1.UUID(), reinterpret_cast<void**>(&debug1));
+        auto result = DXGI_ADAPTER_DESC{0};
+        auto hr = adapter4->GetDesc(&result);
         D12W_CHECK_SUCCESS(hr);
+        return result;
+    }
 
-        hr = D3D12GetDebugInterface(debug1.UUID(), reinterpret_cast<void**>(&debug2));
+    DXGI_ADAPTER_DESC1 Adapter::GetDesc1()
+    {
+        auto result= DXGI_ADAPTER_DESC1{0};
+        auto hr = adapter4->GetDesc1(&result);
         D12W_CHECK_SUCCESS(hr);
+        return result;
     }
 
-    void Debug::EnableDebugLayer()
+    DXGI_ADAPTER_DESC2 Adapter::GetDesc2()
     {
-        D12W_ASSERT(debug1);
-        debug1->EnableDebugLayer();
+        auto result = DXGI_ADAPTER_DESC2{0};
+        auto hr = adapter4->GetDesc2(&result);
+        D12W_CHECK_SUCCESS(hr);
+        return result;
     }
 
-    void Debug::SetEnableGPUBasedValidation(bool enable)
+    DXGI_ADAPTER_DESC3 Adapter::GetDesc3()
     {
-        D12W_ASSERT(debug1);
-        debug1->SetEnableGPUBasedValidation(enable ? TRUE : FALSE);
+        auto result = DXGI_ADAPTER_DESC3{0};
+        auto hr = adapter4->GetDesc3(&result);
+        D12W_CHECK_SUCCESS(hr);
+        return result;
     }
 
-    void Debug::SetEnableSynchronizedCommandQueueValidation(bool enable)
-    {
-        D12W_ASSERT(debug1);
-        debug1->SetEnableSynchronizedCommandQueueValidation(enable ? TRUE : FALSE);
-    }
+    Adapter::Adapter(ComPtr<IDXGIAdapter> adapter)
+    : adapter4(adapter.As<IDXGIAdapter4>()) {}
 
-    void Debug::SetGPUBasedValidationFlags(D3D12_GPU_BASED_VALIDATION_FLAGS flags)
-    {
-        D12W_ASSERT(debug2);
-        debug2->SetGPUBasedValidationFlags(flags);
-    }
+    Adapter::Adapter(ComPtr<IDXGIAdapter1> adapter1)
+    : adapter4(adapter1.As<IDXGIAdapter4>()) {}
 }

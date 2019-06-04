@@ -171,14 +171,14 @@ namespace d12w
          * pointer to pointer. This is commonly needed during COM object
          * initialization.
          *
-         * @return the address of the pointer to COM object as void**
+         * @return the address of the pointer to COM object
          * 
          * @note No const version is provided, since generally speaking
          * this should never be needed.
          */
-        void** operator & ()
+        ComClass** operator & ()
         {
-            return reinterpret_cast<void**>(&object);
+            return &object;
         }
 
         /*!
@@ -212,6 +212,15 @@ namespace d12w
         constexpr IID UUID() const
         {
             return __uuidof(ComClass);
+        }
+
+        template <typename NewComClass>
+        ComPtr<NewComClass> As()
+        {
+            auto newPtr = ComPtr<NewComClass>{};
+            auto hr = object->QueryInterface(newPtr.UUID(), reinterpret_cast<void**>(&newPtr));
+            D12W_CHECK_SUCCESS(hr);
+            return newPtr;
         }
 
         /*!
