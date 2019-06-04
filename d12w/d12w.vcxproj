@@ -160,21 +160,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ComPtr.h" />
+    <ClInclude Include="d3d\d3d.h" />
+    <ClInclude Include="d3d\Debug.h" />
+    <ClInclude Include="d3d\Device.h" />
     <ClInclude Include="dxgi\Adapter.h" />
     <ClInclude Include="dxgi\dxgi.h" />
     <ClInclude Include="dxgi\Factory.h" />
     <ClInclude Include="util.h" />
-    <ClInclude Include="Debug.h" />
     <ClInclude Include="defines.h" />
     <ClInclude Include="d12w.h" />
-    <ClInclude Include="Device.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="d3d\Debug.cpp" />
+    <ClCompile Include="d3d\Device.cpp" />
     <ClCompile Include="dxgi\Adapter.cpp" />
     <ClCompile Include="dxgi\Factory.cpp" />
     <ClCompile Include="util.cpp" />
-    <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="Device.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />

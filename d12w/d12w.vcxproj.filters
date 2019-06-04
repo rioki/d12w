@@ -19,6 +19,12 @@
     <Filter Include="Source Files\dxgi">
       <UniqueIdentifier>{bc8af3b8-35c6-4d39-ae63-0b02c7d6ccd4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\d3d">
+      <UniqueIdentifier>{2ab87892-fd85-450b-a57f-61db39b8c283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\d3d">
+      <UniqueIdentifier>{d4dad4d0-9afd-4c50-80be-ebbcd8ceee1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d12w.h">
@@ -28,12 +34,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="defines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Device.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="util.h">
@@ -48,14 +48,17 @@
     <ClInclude Include="dxgi\dxgi.h">
       <Filter>Header Files\dxgi</Filter>
     </ClInclude>
+    <ClInclude Include="d3d\Debug.h">
+      <Filter>Header Files\d3d</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d\Device.h">
+      <Filter>Header Files\d3d</Filter>
+    </ClInclude>
+    <ClInclude Include="d3d\d3d.h">
+      <Filter>Header Files\d3d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Debug.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Device.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -64,6 +67,12 @@
     </ClCompile>
     <ClCompile Include="dxgi\Adapter.cpp">
       <Filter>Source Files\dxgi</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d\Debug.cpp">
+      <Filter>Source Files\d3d</Filter>
+    </ClCompile>
+    <ClCompile Include="d3d\Device.cpp">
+      <Filter>Source Files\d3d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

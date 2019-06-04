@@ -24,8 +24,8 @@
 
 #include <d3d12.h>
 
-#include "defines.h"
-#include "ComPtr.h"
+#include "../defines.h"
+#include "../ComPtr.h"
 
 namespace d12w::d3d
 {
